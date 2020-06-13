@@ -112,18 +112,26 @@ namespace AlgorithmTests
         [Test]
         public void FindsShortestPathFromSourceWhenSourceWithComplexPath()
         {
-            //Arrange            
+            //Arrange    
             /**
-             * Create the below matrix
-             * [5][20][-1][60][-1][-1][90][-1]
-             * [-1][-1][-1][-1][-1][10][-1][-1]
-             * [-1][-1][-1][10][-1][50][-1][20]
-             * [-1][-1][10][-1][-1][-1][20][-1]
-             * [-1][50][-1][-1][-1][-1][30][-1]
-             * [-1][-1][10][40][-1][-1][-1][-1]
-             * [20][-1][-1][-1][-1][-1][-1][-1]
-             * [-1][-1][-1][-1][-1][-1][-1][-1]
-             * **/
+            Create the below matrix
+            [ -1][ 30][  1][  1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ 10][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ 20][ -1][  2][ 30][ 40][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][  2][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][  8][ -1][ -1][ 12][ -1][ -1][ 50][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][  3][ -1][ -1][ -1][100][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][  1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][  2][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ 10][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ 10][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ 30][ -1][ -1][ -1][ -1][ 2 ][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][  1][100][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ 12][ -1][ -1][ -1][ -1][ -1][ -1][  1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][  2][ -1][ -1][ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][  2]
+            [ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][  1][ -1][ -1][ -1][ -1][ -1]
+            [  5][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ -1][ 40][ -1]
+            **/
             int[][] m = Matrix.Create(16, 16);
             m[0][1] = 30;
             m[0][2] = 1;
@@ -155,15 +163,49 @@ namespace AlgorithmTests
             m[15][0] = 5;
             m[15][14] = 40;
 
-            int[] expectedOutput = new int[8];
-            expectedOutput[0] = 5;
-            expectedOutput[1] = 20;
-            expectedOutput[2] = 40;
-            expectedOutput[3] = 50;
-            expectedOutput[4] = -1;
-            expectedOutput[5] = 30;
-            expectedOutput[6] = 70;
-            expectedOutput[7] = 60;
+            int[] expectedOutput = new int[16];
+            expectedOutput[0] = -1;
+            expectedOutput[1] = 21;
+            expectedOutput[2] = 1;
+            expectedOutput[3] = 1;
+            expectedOutput[4] = 31;
+            expectedOutput[5] = 5;
+            expectedOutput[6] = 8;
+            expectedOutput[7] = 3;
+            expectedOutput[8] = 43;
+            expectedOutput[9] = 14;
+            expectedOutput[10] = 11;
+            expectedOutput[11] = 9;
+            expectedOutput[12] = 12;
+            expectedOutput[13] = 16;
+            expectedOutput[14] = 10;
+            expectedOutput[15] = 18;
+
+            //Act
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+        }
+
+        [Test]
+        public void EmptyMatrixHasNoPaths()
+        {
+            //Arrange    
+            /**
+            Create the below matrix
+            [ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1]
+            [ -1][ -1][ -1][ -1]
+            **/
+            int[][] m = Matrix.Create(4, 4);            
+
+            int[] expectedOutput = new int[4];
+            expectedOutput[0] = -1;
+            expectedOutput[1] = -1;
+            expectedOutput[2] = -1;
+            expectedOutput[3] = -1;
 
             //Act
             int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);

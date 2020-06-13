@@ -10,39 +10,35 @@ namespace Algorithms.Graphs
     {
         public static int[] FindShortestPaths(int[][] matrix, int sourceRow, int sourceCol)
         {
-            bool[] S = new bool[matrix.Length];
-            int N = matrix.Length;
-            int[] W = new int[matrix.Length];
+            int numberOfVertices = matrix.Length;
+            bool[] visitedVertices = new bool[numberOfVertices];            
+            int[] results = new int[numberOfVertices];            
 
-            for (int j = 0; j <= N - 1; j++)
-            {
-                W[j] = matrix[sourceRow][j];
-            }
+            for (int j = 0; j <= numberOfVertices - 1; j++)            
+                results[j] = matrix[sourceRow][j];            
 
             //No need to visit the source node 
             //unless it has an edge to itself
             if (matrix[sourceRow][sourceCol] == -1)
-                S[sourceCol] = true;
+                visitedVertices[sourceCol] = true;
             
-            for (int i = 2; i <= N; i++)
+            for (int i = 2; i <= numberOfVertices; i++)
             {
-                int min_index = GetIndexOfLowestWeightVertex(W, S);
+                int min_index = GetIndexOfLowestWeightVertex(results, visitedVertices);
 
                 if (min_index == -1) 
                     continue;
 
-                S[min_index] = true;
+                visitedVertices[min_index] = true;
 
-                for (int c = 0; c < W.Length; c++)
+                for (int c = 0; c < results.Length; c++)
                 {
-                    if (!S[c] && matrix[min_index][c] != -1 && (W[c] > W[min_index] + matrix[min_index][c] || W[c] == -1))
-                    {
-                        W[c] = W[min_index] + matrix[min_index][c];
-                    }
+                    if (!visitedVertices[c] && matrix[min_index][c] != -1 && (results[c] > results[min_index] + matrix[min_index][c] || results[c] == -1))                    
+                        results[c] = results[min_index] + matrix[min_index][c];                    
                 }
             }
 
-            return W;
+            return results;
         }
 
         private static int GetIndexOfLowestWeightVertex(int[] searchSet, bool[] exclusions)
