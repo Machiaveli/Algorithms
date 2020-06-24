@@ -15,12 +15,11 @@ namespace Algorithms.Graphs
             int[] results = new int[numberOfVertices];            
 
             for (int j = 0; j <= numberOfVertices - 1; j++)            
-                results[j] = matrix[sourceRow][j];            
+                results[j] = matrix[sourceRow][j];
 
-            //No need to visit the source node 
-            //unless it has an edge to itself
-            if (matrix[sourceRow][sourceCol] == -1)
-                visitedVertices[sourceCol] = true;
+            //Source is always 0 distance from self
+            results[sourceCol] = 0;
+            visitedVertices[sourceCol] = true;
             
             for (int i = 2; i <= numberOfVertices; i++)
             {

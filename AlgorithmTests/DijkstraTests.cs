@@ -43,7 +43,7 @@ namespace AlgorithmTests
             m[6][0] = 20;
 
             int[] expectedOutput = new int[8];
-            expectedOutput[0] = -1;
+            expectedOutput[0] = 0;
             expectedOutput[1] = 20;
             expectedOutput[2] = 40;
             expectedOutput[3] = 50;
@@ -93,7 +93,7 @@ namespace AlgorithmTests
             m[6][0] = 20;
 
             int[] expectedOutput = new int[8];
-            expectedOutput[0] = 5;
+            expectedOutput[0] = 0;
             expectedOutput[1] = 20;
             expectedOutput[2] = 40;
             expectedOutput[3] = 50;
@@ -164,7 +164,7 @@ namespace AlgorithmTests
             m[15][14] = 40;
 
             int[] expectedOutput = new int[16];
-            expectedOutput[0] = -1;
+            expectedOutput[0] = 0;
             expectedOutput[1] = 21;
             expectedOutput[2] = 1;
             expectedOutput[3] = 1;
@@ -202,7 +202,7 @@ namespace AlgorithmTests
             int[][] m = Matrix.Create(4, 4);            
 
             int[] expectedOutput = new int[4];
-            expectedOutput[0] = -1;
+            expectedOutput[0] = 0; //start node is 0 distance from self
             expectedOutput[1] = -1;
             expectedOutput[2] = -1;
             expectedOutput[3] = -1;
@@ -212,6 +212,133 @@ namespace AlgorithmTests
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
+        }
+
+        [Test]
+        public void FindsShortestPathFromMiddleNode()
+        {
+            //Arrange    
+            /**
+            Create the below matrix
+            [-1][-1][-1][ 5][-1]
+            [ 3][-1][-1][-1][-1]
+            [ 2][-1][-1][-1][-1]
+            [10][ 3][ 3][-1][ 3]
+            [ 5][-1][-1][-1][-1]
+            **/
+            int[][] m = Matrix.Create(5, 5);
+            m[0][4] = 5;
+            m[1][0] = 3;
+            m[2][0] = 2;
+            m[3][0] = 10;
+            m[3][1] = 3;
+            m[3][2] = 3;
+            m[3][4] = 3;
+            m[4][0] = 5;
+
+            int[] expectedOutput = new int[5];
+            expectedOutput[0] = 5;
+            expectedOutput[1] = 3;
+            expectedOutput[2] = 3;
+            expectedOutput[3] = 0;
+            expectedOutput[4] = 3;
+
+            //Act
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 3, 3);
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+        }
+
+        [Test]
+        public void SourceNodeIsZeroDistanceFromSelf()
+        {
+            //Arrange    
+            /**
+            Create the below matrix
+            [-1][10][ 3][-1]
+            [20][-1][-1][15]
+            [-1][-1][-1][ 5]
+            [ 1][-1][-1][-1]            
+            **/
+            int[][] m = Matrix.Create(4, 4);
+            m[0][1] = 10;
+            m[0][2] = 3;
+            m[1][0] = 20;
+            m[1][3] = 15;
+            m[2][3] = 5;
+            m[3][0] = 1;
+
+            int expectedOutput = 0;
+
+            //Act
+            int actualOutput = Dijkstra.FindShortestPaths(m, 0, 0)[0];
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+        }
+
+        [Test]
+        public void NoErrorOnSingleNodeStructure()
+        {
+            //Arrange    
+            /**
+            Create the below matrix
+            [-1]          
+            **/
+            int[][] m = Matrix.Create(1, 1);
+
+            int[] expectedOutput = new int[1] { 0 };
+
+            //Act
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+        }
+
+        [Test]
+        public void AlgorithmExitsWithCyclicGraph()
+        {
+            //Arrange    
+            /**
+            Create the below matrix
+            [-1][10]
+            [ 5][-1]         
+            **/
+            int[][] m = Matrix.Create(2, 2);
+            m[0][1] = 10;
+            m[1][0] = 5;
+
+            int[] expectedOutput = new int[2] { 0, 10 };
+
+            //Act
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+
+        }
+
+        [Test]
+        public void AlgorithmExitsWithEmptyGraph()
+        {
+            //Arrange    
+            /**
+            Create the below matrix
+            [-1][-1]
+            [-1][-1]         
+            **/
+            int[][] m = Matrix.Create(2, 2);
+
+            int[] expectedOutput = new int[2] { 0, -1 };
+
+            //Act
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+
         }
     }
 }
