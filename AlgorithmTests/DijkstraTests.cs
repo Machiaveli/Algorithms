@@ -53,7 +53,56 @@ namespace AlgorithmTests
             expectedOutput[7] = 60;
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
+
+            //Assert
+            Assert.AreEqual(expectedOutput, actualOutput);
+        }
+
+        [Test]
+        public void FindsShortestPathRouteFromSource()
+        {
+            //Arrange            
+            /**
+             * Create the below matrix
+             * [-1][20][-1][60][-1][-1][90][-1]
+             * [-1][-1][-1][-1][-1][10][-1][-1]
+             * [-1][-1][-1][10][-1][50][-1][20]
+             * [-1][-1][10][-1][-1][-1][20][-1]
+             * [-1][50][-1][-1][-1][-1][30][-1]
+             * [-1][-1][10][40][-1][-1][-1][-1]
+             * [20][-1][-1][-1][-1][-1][-1][-1]
+             * [-1][-1][-1][-1][-1][-1][-1][-1]
+             * **/
+            int[][] m = Matrix.Create(8, 8);
+            m[0][1] = 20;
+            m[0][1] = 20;
+            m[0][3] = 60;
+            m[0][3] = 90;
+            m[1][5] = 10;
+            m[2][3] = 10;
+            m[2][5] = 50;
+            m[2][7] = 20;
+            m[3][2] = 10;
+            m[3][6] = 20;
+            m[4][1] = 50;
+            m[4][6] = 30;
+            m[5][2] = 10;
+            m[5][3] = 40;
+            m[6][0] = 20;
+
+            int[] expectedOutput = new int[8];
+            expectedOutput[0] = 0;
+            expectedOutput[1] = 0;
+            expectedOutput[2] = 5;
+            expectedOutput[3] = 2;
+            expectedOutput[4] = 0;
+            expectedOutput[5] = 1;
+            expectedOutput[6] = 3;
+            expectedOutput[7] = 2;
+
+            //Act
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PreviousNodes;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -103,7 +152,7 @@ namespace AlgorithmTests
             expectedOutput[7] = 60;
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -182,7 +231,7 @@ namespace AlgorithmTests
             expectedOutput[15] = 18;
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -208,7 +257,7 @@ namespace AlgorithmTests
             expectedOutput[3] = -1;
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -244,7 +293,7 @@ namespace AlgorithmTests
             expectedOutput[4] = 3;
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 3, 3);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 3, 3).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -272,7 +321,7 @@ namespace AlgorithmTests
             int expectedOutput = 0;
 
             //Act
-            int actualOutput = Dijkstra.FindShortestPaths(m, 0, 0)[0];
+            int actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths[0];
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -291,7 +340,7 @@ namespace AlgorithmTests
             int[] expectedOutput = new int[1] { 0 };
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -313,7 +362,7 @@ namespace AlgorithmTests
             int[] expectedOutput = new int[2] { 0, 10 };
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
@@ -334,7 +383,7 @@ namespace AlgorithmTests
             int[] expectedOutput = new int[2] { 0, -1 };
 
             //Act
-            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0);
+            int[] actualOutput = Dijkstra.FindShortestPaths(m, 0, 0).PathLengths;
 
             //Assert
             Assert.AreEqual(expectedOutput, actualOutput);
